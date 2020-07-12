@@ -6,7 +6,7 @@ __version__ = "0.1.0"
 
 class Table(object):
 
-    # private variable
+    # private variables
     _sep = '='
     _stringstream = ''
     _rows = []
@@ -14,7 +14,7 @@ class Table(object):
     _alignment = '>'
     _fformat = 'f'
     
-
+    # constructor
     def __init__(self, title: str = None, max_width: int = 6, border: bool = False) -> None:
         super(Table, self).__init__()
 
@@ -23,6 +23,7 @@ class Table(object):
         if title:
             self._append(title)
 
+    # private methods
     def _append(self, strline: str, end: str = '\n') -> None:
         self._stringstream += strline
         self._stringstream += end
@@ -30,6 +31,10 @@ class Table(object):
     def _newl(self) -> None:
         self._stringstream += '\n'
 
+    def _add_separation(self, sep: str):
+        self._append(self._sep * ((len(self._rows) - 1) * (self._max_width + len(sep)) + self._max_width))
+
+    # public methods
     def add_rows(self, iterable: Iterable[str], sep: str = ' ') -> None:
         if self.border:
             # TODO
@@ -63,9 +68,6 @@ class Table(object):
         strline = sep.join(line_string)
         self._append(strline, end)
 
-    def _add_separation(self, sep: str):
-        self._append(self._sep * ((len(self._rows) - 1) * (self._max_width + len(sep)) + self._max_width))
-
     def set_name(self, name: str):
         self._name = name
 
@@ -89,10 +91,16 @@ class Table(object):
         self._stringstream = ''
         self._rows = []
         self._name = ''
-
+    
+    # define print stream print(Table) --> self._stringstream
     def __repr__(self) -> str:
         return self._stringstream
     
+    # define operator "+=" to append line
+    def __iadd__(self, iterable: Iterable[Any]):
+        self.add_line(iterable, sep=' ', end='\n')
+        return self
+
 
 if __name__ == "__main__":
     # create a table
@@ -117,6 +125,17 @@ if __name__ == "__main__":
     table.add_rows(["", "a", "b"])
     table.add_line(["c", 5151, 776])
     table.add_line(["d", 0.654646, 1.0])
+    print("table is below")
+    print(table)
+
+    # clean again and test operator '+='
+    table.clean()
+    table.set_alignment('l')  # set alignment to 'left'
+    table.set_float_format('%')  # this time use percentage
+    table.set_width(7)  # since float has extra "%" char, we add one more place to width
+    table.add_rows(["", "a", "b"])
+    table += ["c", 5151, 776]
+    table += ["d", 0.654646, 1.0]
     print("table is below")
     print(table)
     
