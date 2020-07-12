@@ -1,7 +1,7 @@
 from typing import Any, Iterable
 
 
-__version__ = "0.1.0"
+__version__ = "0.1.3"
 
 
 class Table(object):
@@ -9,7 +9,7 @@ class Table(object):
     # private variables
     _sep = '='
     _stringstream = ''
-    _rows = []
+    _head = []
     _name = ''
     _alignment = '>'
     _fformat = 'f'
@@ -32,16 +32,16 @@ class Table(object):
         self._stringstream += '\n'
 
     def _add_separation(self, sep: str):
-        self._append(self._sep * ((len(self._rows) - 1) * (self._max_width + len(sep)) + self._max_width))
+        self._append(self._sep * ((len(self._head) - 1) * (self._max_width + len(sep)) + self._max_width))
 
     # public methods
-    def add_rows(self, iterable: Iterable[str], sep: str = ' ') -> None:
+    def add_head(self, iterable: Iterable[str], sep: str = ' ') -> None:
         if self.border:
             # TODO
             raise NotImplementedError("Current Table doesn't support border")
         else:
             for it in iterable:
-                self._rows.append(it)
+                self._head.append(it)
 
             self.add_line(sep=sep, end='\t')
             self._stringstream += self._name
@@ -50,9 +50,9 @@ class Table(object):
     
     def add_line(self, iterable: Iterable[Any] = None, sep: str = ' ', end: str = '\n') -> None:
         if iterable is None:
-            iterable = self._rows
+            iterable = self._head
         
-        assert len(iterable) == len(self._rows), "Inputs length is incompatible with head info"
+        assert len(iterable) == len(self._head), "Inputs length is incompatible with head info"
 
         line_string = []
         for it in iterable:
@@ -89,16 +89,19 @@ class Table(object):
     
     def clean(self):
         self._stringstream = ''
-        self._rows = []
+        self._head = []
         self._name = ''
     
     # define print stream print(Table) --> self._stringstream
     def __repr__(self) -> str:
         return self._stringstream
     
-    # define operator "+=" to append line
-    def __iadd__(self, iterable: Iterable[Any]):
-        self.add_line(iterable, sep=' ', end='\n')
+    # define operator "<<" to add head/line
+    def __lshift__(self, iterable: Iterable[Any]):
+        if self._stringstream:
+            self.add_line(iterable, sep=' ', end='\n')
+        else:
+            self.add_head(iterable, sep=' ')
         return self
 
 
@@ -107,7 +110,7 @@ if __name__ == "__main__":
     table = Table()
     table.set_name("testname.fbx")
     table.set_alignment('r')  # set alignment to 'right'
-    table.add_rows(["", "a", "b"])
+    table.add_head(["", "a", "b"])
     table.add_line(["c", 5151, 776])
     table.add_line(["d", 0.654646, 0.87989416])
     print("table is below")
@@ -122,20 +125,20 @@ if __name__ == "__main__":
     table.set_alignment('c')  # set alignment to 'center'
     table.set_float_format('%')  # this time use percentage
     table.set_width(7)  # since float has extra "%" char, we add one more place to width
-    table.add_rows(["", "a", "b"])
+    table.add_head(["", "a", "b"])
     table.add_line(["c", 5151, 776])
     table.add_line(["d", 0.654646, 1.0])
     print("table is below")
     print(table)
 
-    # clean again and test operator '+='
+    # clean again and test operator '<<'
     table.clean()
     table.set_alignment('l')  # set alignment to 'left'
     table.set_float_format('%')  # this time use percentage
     table.set_width(7)  # since float has extra "%" char, we add one more place to width
-    table.add_rows(["", "a", "b"])
-    table += ["c", 5151, 776]
-    table += ["d", 0.654646, 1.0]
+    table << ["", "a", "b"]
+    table << ["c", 5151, 776]
+    table << ["d", 0.654646, 1.0]
     print("table is below")
     print(table)
     
