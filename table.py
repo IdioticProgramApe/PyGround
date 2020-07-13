@@ -1,7 +1,7 @@
 from typing import Any, Iterable
 
 
-__version__ = "0.1.3"
+__version__ = "0.1.4"
 
 
 class Table(object):
@@ -31,7 +31,7 @@ class Table(object):
     def _newl(self) -> None:
         self._stringstream += '\n'
 
-    def _add_separation(self, sep: str):
+    def _add_separation(self, sep: str) -> None:
         self._append(self._sep * ((len(self._head) - 1) * (self._max_width + len(sep)) + self._max_width))
 
     # public methods
@@ -68,13 +68,13 @@ class Table(object):
         strline = sep.join(line_string)
         self._append(strline, end)
 
-    def set_name(self, name: str):
+    def set_name(self, name: str) -> None:
         self._name = name
 
-    def set_width(self, width: int):
+    def set_width(self, width: int) -> None:
         self._max_width = width
 
-    def set_alignment(self, opt: str):
+    def set_alignment(self, opt: str) -> None:
         if opt == 'r':
             self._alignment = '>'
         elif opt == 'l':
@@ -84,10 +84,10 @@ class Table(object):
         else:
             raise RuntimeError("Unknown Alignment Method, choose from ['r', 'l', 'c']")
 
-    def set_float_format(self, _format: str):
+    def set_float_format(self, _format: str) -> None:
         self._fformat = _format
     
-    def clean(self):
+    def clean(self) -> None:
         self._stringstream = ''
         self._head = []
         self._name = ''
@@ -97,12 +97,11 @@ class Table(object):
         return self._stringstream
     
     # define operator "<<" to add head/line
-    def __lshift__(self, iterable: Iterable[Any]):
+    def __lshift__(self, iterable: Iterable[Any]) -> None:
         if self._stringstream:
             self.add_line(iterable, sep=' ', end='\n')
         else:
             self.add_head(iterable, sep=' ')
-        return self
 
 
 if __name__ == "__main__":
@@ -138,7 +137,7 @@ if __name__ == "__main__":
     table.set_width(7)  # since float has extra "%" char, we add one more place to width
     table << ["", "a", "b"]
     table << ["c", 5151, 776]
-    table << ["d", 0.654646, 1.0]
+    table << ["d", 0.0, 1.0]
     print("table is below")
     print(table)
     
