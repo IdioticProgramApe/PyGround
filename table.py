@@ -1,7 +1,7 @@
 from typing import Any, Iterable
 
 
-__version__ = "0.1.4"
+__version__ = "0.1.5"
 
 
 class Table(object):
@@ -97,11 +97,12 @@ class Table(object):
         return self._stringstream
     
     # define operator "<<" to add head/line
-    def __lshift__(self, iterable: Iterable[Any]) -> None:
+    def __lshift__(self, iterable: Iterable[Any]) -> object:
         if self._stringstream:
             self.add_line(iterable, sep=' ', end='\n')
         else:
             self.add_head(iterable, sep=' ')
+        return self
 
 
 if __name__ == "__main__":
@@ -140,4 +141,12 @@ if __name__ == "__main__":
     table << ["d", 0.0, 1.0]
     print("table is below")
     print(table)
-    
+
+    # test chained operator "<<"
+    table.clean()
+    table.set_alignment('c')  # set alignment to 'left'
+    table.set_float_format('f')  # this time use percentage
+    table.set_width(6)  # since float has extra "%" char, we add one more place to width
+    table << ["", "a", "b"] << ["c", 5151, 776] << ["d", 0.0, 1.0]
+    print("table is below")
+    print(table)
