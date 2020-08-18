@@ -19,9 +19,9 @@ def timeout(timeperiod):
 
             try:
                 t.start()
-                t.join(timeout)
+                t.join(timeperiod)
             except Exception as e:
-                raise e("Error starting thread")
+                raise e
             
             ret = res[0]
             if isinstance(ret, BaseException):
