@@ -1,3 +1,7 @@
+from array import array
+
+import numpy as np
+
 import _sample_wrapper as sample
     
     
@@ -13,6 +17,8 @@ def test_divide() -> None:
     
 def test_avg() -> None:
     assert 2. == sample.avg([1., 2., 3.])
+    assert 2. == sample.avg(array('d', [1., 2., 3.]))
+    assert 2. == sample.avg(np.array([1., 2., 3.]))
     
 def test_distance() -> None:
     p1 = sample.Point(1, 2)
