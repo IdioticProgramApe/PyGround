@@ -1,0 +1,6 @@
+﻿  sample.c
+     Creating library D:\pratices\pyutil\15_C_EXTENSION\sample\x64\Release\sample.lib and object D:\pratices\pyutil\15_C_EXTENSION\sample\x64\Release\sample.exp
+  Generating code
+  All 5 functions were compiled because no usable IPDB/IOBJ from previous compilation was found.
+  Finished generating code
+  sample.vcxproj -> D:\pratices\pyutil\15_C_EXTENSION\sample\x64\Release\sample.dll
