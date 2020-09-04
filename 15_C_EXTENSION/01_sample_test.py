@@ -2,7 +2,7 @@ from array import array
 
 import numpy as np
 
-import _sample_wrapper as sample
+from py_src import sample_wrapper as sample
     
     
 def test_gcd() -> None:

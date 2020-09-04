@@ -1,0 +1,5 @@
+﻿  sample.c
+  Generating code
+  All 0 functions were compiled because no usable IPDB/IOBJ from previous compilation was found.
+  Finished generating code
+  python_api.vcxproj -> D:\pratices\pyutil\15_C_EXTENSION\sample\x64\Release\python_api.dll

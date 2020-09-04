@@ -10,7 +10,7 @@ pyList = TypeVar('pyList', List, Tuple)
 ndArray = TypeVar('ndArray', bound=np.ndarray)
 
 # try to location the shared library
-_file = '.\\sample\\x64\\Release\\sample.dll'
+_file = '..\\sample\\x64\\Release\\sample.dll'
 _path = os.path.join(*(os.path.split(__file__)[:-1] + (_file,)))
 _mod = ctypes.cdll.LoadLibrary(_path)
 
