@@ -1,5 +1,8 @@
 #include "Python.h"
 
+#define PYSAMPLE_MODULE
+#include "pysample.h"
+
 #include "sample.h"
 
 
@@ -94,7 +97,7 @@ static void del_Point(PyObject* obj)
 	free(PyCapsule_GetPointer(obj, "Point"));
 }
 
-// utility function
+// utility functions
 static Point* PyPoint_AsPoint(PyObject* obj)
 {
 	return (Point*)PyCapsule_GetPointer(obj, "Point");
@@ -105,7 +108,6 @@ static PyObject* PyPoint_FromPoint(Point* p, int must_free)
 	return PyCapsule_New(p, "Point", must_free ? del_Point : NULL);
 }
 
-// create a new point object
 static PyObject* py_Point(PyObject* self, PyObject* args)
 {
 	Point* p;
@@ -123,7 +125,7 @@ static PyObject* py_Point(PyObject* self, PyObject* args)
 
 static PyObject* py_distance(PyObject* self, PyObject* args)
 {
-	Point* p1; 
+	Point* p1;
 	Point* p2;
 	PyObject* py_p1;
 	PyObject* py_p2;
@@ -169,8 +171,28 @@ static struct PyModuleDef samplemodule = {
 	SampleMethods				/* Method table */
 };
 
+static _PointAPIMethods _point_api = {
+	PyPoint_AsPoint,
+	PyPoint_FromPoint
+};
+
 /* Module initialization function */
 PyMODINIT_FUNC PyInit_sample(void)
 {
-	return PyModule_Create(&samplemodule);
+	PyObject* m;
+	PyObject* py_point_api;
+
+	m = PyModule_Create(&samplemodule);
+	if (m == NULL)
+	{
+		return NULL;
+	}
+
+	/* add the Point C API functions */
+	py_point_api = PyCapsule_New((void*)&_point_api, "sample._point_api", NULL);
+	if (py_point_api)
+	{
+		PyModule_AddObject(m, "_point_api", py_point_api);
+	}
+	return m;
 }

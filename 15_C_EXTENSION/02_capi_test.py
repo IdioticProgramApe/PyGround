@@ -42,3 +42,14 @@ def test_capi_capsule() -> None:
     
     d = sample.distance(p1, p2)
     assert abs(d - 2.8284271247461903) < 1e-15
+
+
+def test_capi_ptexample() -> None:
+    try:
+        import ptexample
+        p = sample.Point(2, 3)
+        ptexample.print_point(p)
+    except:
+        assert 0
+    assert 1
+    
