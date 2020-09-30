@@ -124,10 +124,12 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClInclude Include="pysample.h" />
     <ClInclude Include="sample.h" />
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="extension.c" />
+    <ClCompile Include="ptexample.c" />
+    <ClCompile Include="pysample.c" />
     <ClCompile Include="sample.c" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />

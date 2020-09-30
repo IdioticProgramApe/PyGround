@@ -18,12 +18,18 @@
     <ClInclude Include="sample.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="pysample.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="sample.c">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="extension.c">
+    <ClCompile Include="pysample.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="ptexample.c">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>

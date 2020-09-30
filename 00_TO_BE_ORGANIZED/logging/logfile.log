@@ -1,0 +1,5 @@
+2020-09-15 18:09:54,037 :    DEBUG : __main__ : A debug message
+2020-09-15 18:09:54,037 :     INFO : __main__ : An info message
+2020-09-15 18:09:54,037 :  WARNING : __main__ : Something is not right.
+2020-09-15 18:09:54,037 :    ERROR : __main__ : A Major error has happened.
+2020-09-15 18:09:54,038 : CRITICAL : __main__ : Fatal error. Cannot continue
